@@ -23,6 +23,7 @@
 
 <script>
 import TarefaForm from "./TarefaForm.vue";
+import { tarefaService } from "@/services/tarefaService";
 
 export default {
   name: "ListaTarefa",
@@ -35,27 +36,23 @@ export default {
   data() {
     return {
       tarefas: [],
+      tarefaEmEdicao: null,
     };
+  },
+  async created() {
+    await this.carregarTarefas();
   },
   methods: {
     async carregarTarefas() {
       try {
-        const response = await fetch("https://localhost:7087/tarefas");
-        this.tarefas = await response.json();
+        this.tarefas = await tarefaService.listar();
       } catch (error) {
         console.error("Erro ao carregar tarefas:", error);
       }
     },
     async adicionarTarefa(novaTarefa) {
       try {
-        const response = await fetch("https://localhost:7087/tarefas", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(novaTarefa),
-        });
-        const tarefaSalva = await response.json();
+        const tarefaSalva = await tarefaService.criar(novaTarefa);
         this.tarefas.push(tarefaSalva);
       } catch (error) {
         console.error("Erro ao adicionar tarefa:", error);
@@ -63,16 +60,41 @@ export default {
     },
     async excluirTarefa(id) {
       try {
-        await fetch(`https://localhost:7087/tarefas/${id}`, {
-          method: "DELETE",
-        });
+        await tarefaService.excluir(id);
         this.tarefas = this.tarefas.filter((tarefa) => tarefa.id !== id);
       } catch (error) {
         console.error("Erro ao excluir tarefa:", error);
       }
     },
-    mounted() {
-      this.carregarTarefas();
+    async toggleConcluida(tarefa) {
+      try {
+        const tarefaAtualizada = {
+          ...tarefa,
+          concluida: !tarefa.concluida,
+        };
+        await tarefaService.atualizar(tarefa.id, tarefaAtualizada);
+        const index = this.tarefas.findIndex((t) => t.id === tarefa.id);
+        if (index !== -1) {
+          this.tarefas[index].concluida = !this.tarefas[index].concluida;
+        }
+      } catch (error) {
+        console.error("Erro ao atualizar tarefa:", error);
+      }
+    },
+    iniciarEdicao(tarefa) {
+      this.tarefaEmEdicao = { ...tarefa };
+    },
+    async atualizarTarefa(tarefaAtualizada) {
+      try {
+        await tarefaService.atualizar(tarefaAtualizada.id, tarefaAtualizada);
+        const index = this.tarefas.findIndex((t) => t.id === tarefaAtualizada);
+        if (index !== -1) {
+          this.tarefas[index] = tarefaAtualizada;
+        }
+        this.tarefaEmEdicao = null;
+      } catch (error) {
+        console.error("Erro ao atualizar tarefa:", error);
+      }
     },
   },
 };
