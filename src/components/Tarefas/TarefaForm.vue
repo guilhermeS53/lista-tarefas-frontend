@@ -1,18 +1,32 @@
 <template>
   <div class="tarefa-form">
     <form @submit.prevent="submitForm">
-      <input
-        v-model="tarefaLocal.titulo"
-        type="text"
-        placeholder="Título da Tarefa"
-        required
-      />
-      <button type="submit">
-        {{ modoEdicao ? "Atualizar" : "Adicionar" }}
-      </button>
-      <button v-if="modoEdicao" type="button" @click="cancelarEdicao">
-        Cancelar
-      </button>
+      <div class="form-group">
+        <input
+          v-model="tarefaLocal.titulo"
+          type="text"
+          placeholder="Título da Tarefa"
+          required
+        />
+        <textarea
+          v-model="tarefaLocal.descricao"
+          placeholder="Descrição da Tarefa"
+          rows="3"
+        ></textarea>
+        <select v-model="tarefaLocal.descricao">
+          <option value="0">Pendente</option>
+          <option value="1">Em Andamento</option>
+          <option value="2">Concluído</option>
+        </select>
+      </div>
+      <div class="form-actions">
+        <button type="submit">
+          {{ modoEdicao ? "Atualizar" : "Adicionar" }}
+        </button>
+        <button v-if="modoEdicao" type="button" @click="cancelarEdicao">
+          Cancelar
+        </button>
+      </div>
     </form>
   </div>
 </template>
@@ -30,6 +44,8 @@ export default {
     return {
       tarefaLocal: {
         titulo: "",
+        descricao: "",
+        status: 0,
         concluida: false,
       },
     };
@@ -81,11 +97,22 @@ form {
   gap: 10px;
 }
 
-input {
-  flex: 1;
+input,
+textarea,
+select {
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
+  outline: none;
+}
+
+textarea {
+  resize: none;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
 }
 
 button {
