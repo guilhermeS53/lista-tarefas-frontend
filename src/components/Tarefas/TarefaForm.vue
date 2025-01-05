@@ -5,17 +5,18 @@
         <input
           v-model="tarefaLocal.titulo"
           type="text"
-          placeholder="Título da Tarefa"
+          placeholder="Título"
           required
         />
         <textarea
           v-model="tarefaLocal.descricao"
           type="text"
-          placeholder="Descrição da Tarefa"
-          rows="3"
+          placeholder="Descrição"
+          rows="4"
           required
         ></textarea>
-        <select v-model.number="tarefaLocal.status" placeholder="Status">
+        <select v-model.number="tarefaLocal.status">
+          <option value="" disabled selected>Informe o Status</option>
           <option :value="0">Pendente</option>
           <option :value="1">Em Andamento</option>
           <option :value="2">Concluído</option>
@@ -76,6 +77,8 @@ export default {
     limparFormulario() {
       this.tarefaLocal = {
         titulo: "",
+        descricao: "",
+        status: 0,
         concluida: false,
       };
     },
@@ -88,10 +91,6 @@ export default {
 </script>
 
 <style scoped>
-body {
-  font-family: "Inter", serif;
-}
-
 .tarefa-form {
   max-width: 600px;
   margin: 0 auto 20px auto;
@@ -108,12 +107,13 @@ body {
 input,
 textarea,
 select {
+  font-family: "Inter", serif;
+  font-size: 14px;
   width: 100%;
   max-width: 600px;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  font-size: 14px;
   outline: none;
   box-sizing: border-box;
   margin: 0 auto;
@@ -125,6 +125,7 @@ textarea {
 }
 
 .form-actions {
+  font-weight: bold;
   max-width: 600px;
   display: flex;
   gap: 10px;

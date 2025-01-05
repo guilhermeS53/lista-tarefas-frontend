@@ -22,9 +22,11 @@
         </div>
 
         <div class="acoes">
-          <button @click="iniciarEdicao(tarefa)">Editar</button>
-          <button @click="excluirTarefa(tarefa.id)">Excluir</button>
-          <button @click="toggleStatus(tarefa)">
+          <button @click="iniciarEdicao(tarefa)" class="editar">Editar</button>
+          <button @click="excluirTarefa(tarefa.id)" class="excluir">
+            Excluir
+          </button>
+          <button @click="toggleStatus(tarefa)" class="concluir">
             {{ tarefa.status === 2 ? "Reabrir" : "Concluir" }}
           </button>
         </div>
@@ -86,7 +88,7 @@ export default {
         await tarefaService.atualizar(tarefa.id, tarefaAtualizada);
         const index = this.tarefas.findIndex((t) => t.id === tarefa.id);
         if (index !== -1) {
-          this.tarefas[index].concluida = !this.tarefas[index].concluida;
+          this.tarefas[index] = tarefaAtualizada;
         }
       } catch (error) {
         console.error("Erro ao atualizar tarefa:", error);
@@ -113,30 +115,32 @@ export default {
       }
     },
     getStatusText(status) {
+      const statusNumber = Number(status);
       const statusMap = {
         0: "Pendente",
         1: "Em Andamento",
         2: "Concluído",
       };
-      return statusMap[status] || "Desconhecido";
+      return statusMap[statusNumber] !== undefined
+        ? statusMap[statusNumber]
+        : "Pendente";
     },
     getStatusClass(status) {
+      const statusNumber = Number(status);
       const statusClassMap = {
         0: "pendente",
         1: "em-andamento",
         2: "concluido",
       };
-      return statusClassMap[status] || "";
+      return statusClassMap[statusNumber] !== undefined
+        ? statusClassMap[statusNumber]
+        : "pendente";
     },
   },
 };
 </script>
 
 <style scoped>
-body {
-  font-family: "Inter", serif;
-}
-
 .lista-tarefas {
   max-width: 600px;
   margin: 0 auto;
@@ -168,39 +172,24 @@ body {
   color: #667;
 }
 
-.concluida {
-  text-decoration: line-through;
-  color: #888;
-}
-
 .status-badge {
   display: inline-block;
   padding: 4px 8px;
   border-radius: 12px;
   border: 1px solid #42b983;
   color: #42b983;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
 }
 
-.pendente {
-  border-color: #ff9800;
-  color: #ff9800;
-}
-
-.em-andamento {
-  border-color: #2196f3;
-  color: #2196f3;
-}
-
-.concluido {
-  border-color: #42b983;
-  color: #42b983;
+.concluida {
+  text-decoration: line-through;
+  color: #888;
 }
 
 .acoes {
   display: flex;
-  gap: 5px;
+  gap: 7px;
 }
 .acoes button {
   margin-left: 5px;
@@ -209,7 +198,6 @@ body {
   border: 1px solid #42b983;
   cursor: pointer;
   background-color: white;
-  color: #42b983;
 }
 .acoes button:hover {
   background-color: #42b983;
