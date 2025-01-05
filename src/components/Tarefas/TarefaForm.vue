@@ -10,17 +10,19 @@
         />
         <textarea
           v-model="tarefaLocal.descricao"
+          type="text"
           placeholder="Descrição da Tarefa"
           rows="3"
+          required
         ></textarea>
-        <select v-model="tarefaLocal.descricao">
-          <option value="0">Pendente</option>
-          <option value="1">Em Andamento</option>
-          <option value="2">Concluído</option>
+        <select v-model.number="tarefaLocal.status" placeholder="Status">
+          <option :value="0">Pendente</option>
+          <option :value="1">Em Andamento</option>
+          <option :value="2">Concluído</option>
         </select>
       </div>
       <div class="form-actions">
-        <button type="submit">
+        <button type="submit" class="btn-primary">
           {{ modoEdicao ? "Atualizar" : "Adicionar" }}
         </button>
         <button v-if="modoEdicao" type="button" @click="cancelarEdicao">
@@ -86,33 +88,60 @@ export default {
 </script>
 
 <style scoped>
-.tarefa-form {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
+body {
+  font-family: "Inter", serif;
 }
 
-form {
+.tarefa-form {
+  max-width: 600px;
+  margin: 0 auto 20px auto;
+}
+
+.form-group {
+  max-width: 600px;
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 15px;
 }
 
 input,
 textarea,
 select {
+  width: 100%;
+  max-width: 600px;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
+  font-size: 14px;
   outline: none;
+  box-sizing: border-box;
+  margin: 0 auto;
 }
 
 textarea {
   resize: none;
+  min-height: 60px;
 }
 
 .form-actions {
+  max-width: 600px;
   display: flex;
   gap: 10px;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.btn-primary {
+  width: 120px;
+  background-color: #42b983;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 button {
@@ -126,5 +155,6 @@ button {
 
 button:hover {
   background-color: #3aa876;
+  opacity: 0.8;
 }
 </style>

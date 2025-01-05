@@ -133,6 +133,10 @@ export default {
 </script>
 
 <style scoped>
+body {
+  font-family: "Inter", serif;
+}
+
 .lista-tarefas {
   max-width: 600px;
   margin: 0 auto;
@@ -141,19 +145,22 @@ export default {
 .tarefa-item {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  margin: 5px 0;
+  align-items: flex-start;
+  padding: 15px;
+  margin: 10px 0;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
 
 .tarefa-conteudo {
   flex: 1;
+  text-align: left;
+  margin-right: 15px;
 }
 
 .tarefa-conteudo h3 {
   margin: 0 0 5px 0;
+  font-size: 18px;
 }
 
 .tarefa-conteudo p {
@@ -207,5 +214,12 @@ export default {
 .acoes button:hover {
   background-color: #42b983;
   color: white;
+}
+
+@media (max-width: 600px) {
+  .acoes {
+    margin-top: 7px;
+    flex-direction: column;
+  }
 }
 </style>
