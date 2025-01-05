@@ -74,8 +74,10 @@ export default {
     },
     async excluirTarefa(id) {
       try {
-        await tarefaService.excluir(id);
-        this.tarefas = this.tarefas.filter((tarefa) => tarefa.id !== id);
+        if (confirm("Tem certeza que deseja excluir esta tarefa?")) {
+          await tarefaService.excluir(id);
+          this.tarefas = this.tarefas.filter((tarefa) => tarefa.id !== id);
+        }
       } catch (error) {
         console.error("Erro ao excluir tarefa:", error);
       }
