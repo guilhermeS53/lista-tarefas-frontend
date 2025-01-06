@@ -32,14 +32,14 @@ Ele permite que o usuário visualize, adicione, edite e exclua uma ou mais taref
    git clone https://github.com/guilhermeS53/lista-tarefas-frontend.git
    ```
 
-2. Acessar o diretório do projeto:
-   ```bash
-   cd projeto-frontend-tarefas
-   ```
-
-3. Instale as dependências usando:
+2. Instale as dependências usando:
    ```bash
    npm install
+   ```
+
+3. Execute o projeto usando:
+   ```bash
+   npm run serve
    ```
 
 ---
@@ -66,7 +66,7 @@ Verifique antes de executar, se que o Backend está em execução e atualize a U
 const API_URL = "https://localhost:7087/tarefas";
 ```
 
-Substitua `http://localhost:PORT` pela URL apontada pelo seu Backend.
+Substitua `https://localhost:PORT` pela URL apontada pelo seu Backend.
 
 ## 📂 Estrutura de Pastas
 
