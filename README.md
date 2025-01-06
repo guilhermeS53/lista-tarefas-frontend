@@ -21,7 +21,7 @@ Ele permite que o usuário visualize, adicione, edite e exclua uma ou mais taref
 
 ## ⚙️ Requisitos
 - **Node.js** (>= 16.0.0)
-- **npm** para gerenciamento dos pacotes
+- **npm** (gestão dos pacotes)
 
 ---
 
