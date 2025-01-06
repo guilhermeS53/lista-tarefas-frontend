@@ -15,11 +15,11 @@
           rows="4"
           required
         ></textarea>
-        <select v-model.number="tarefaLocal.status">
+        <select v-model="tarefaLocal.status">
           <option value="" disabled selected>Informe o Status</option>
-          <option :value="0">Pendente</option>
-          <option :value="1">Em Andamento</option>
-          <option :value="2">Concluído</option>
+          <option value="Pendente">Pendente</option>
+          <option value="EmAndamento">Em Andamento</option>
+          <option value="Concluido">Concluído</option>
         </select>
       </div>
       <div class="form-actions">
@@ -48,7 +48,7 @@ export default {
       tarefaLocal: {
         titulo: "",
         descricao: "",
-        status: 0,
+        status: "Pendente",
         concluida: false,
       },
     };
@@ -78,7 +78,7 @@ export default {
       this.tarefaLocal = {
         titulo: "",
         descricao: "",
-        status: 0,
+        status: "Pendente",
         concluida: false,
       };
     },
