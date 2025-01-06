@@ -12,22 +12,21 @@
     <div class="tarefas">
       <div v-for="tarefa in tarefas" :key="tarefa.id" class="tarefa-item">
         <div class="tarefa-conteudo">
-          <h3 :class="{ concluida: tarefa.status === 2 }">
+          <h3 :class="{ concluida: tarefa.status === 'Concluido' }">
             {{ tarefa.titulo }}
           </h3>
           <p>{{ tarefa.descricao }}</p>
-          <span class="status-badge" :class="getStatusClass(tarefa.status)">{{
-            getStatusText(tarefa.status)
-          }}</span>
+          <span class="status-badge" :class="tarefa.status.toLowerCase()">
+            {{ formatarStatus(tarefa.status) }}
+          </span>
         </div>
-
         <div class="acoes">
           <button @click="iniciarEdicao(tarefa)" class="editar">Editar</button>
           <button @click="excluirTarefa(tarefa.id)" class="excluir">
             Excluir
           </button>
           <button @click="toggleStatus(tarefa)" class="concluir">
-            {{ tarefa.status === 2 ? "Reabrir" : "Concluir" }}
+            {{ tarefa.status === 'Concluido' ? "Reabrir" : "Concluir" }}
           </button>
         </div>
       </div>
@@ -84,7 +83,7 @@ export default {
     },
     async toggleStatus(tarefa) {
       try {
-        const novoStatus = tarefa.status === 2 ? 0 : 2;
+        const novoStatus = tarefa.status === "Concluido" ? "Pendente" : "Concluido";
         const tarefaAtualizada = { ...tarefa, status: novoStatus };
 
         await tarefaService.atualizar(tarefa.id, tarefaAtualizada);
@@ -95,6 +94,14 @@ export default {
       } catch (error) {
         console.error("Erro ao atualizar tarefa:", error);
       }
+    },
+    formatarStatus(status) {
+      const statusMap = {
+        "Concluido": "Concluído",
+        "EmAndamento": "Em Andamento",
+        "Pendente": "Pendente",
+      };
+      return statusMap[status] !== undefined ? statusMap[status] : status;
     },
     iniciarEdicao(tarefa) {
       this.tarefaEmEdicao = { ...tarefa };
@@ -115,28 +122,6 @@ export default {
       } catch (error) {
         console.error("Erro ao atualizar tarefa:", error);
       }
-    },
-    getStatusText(status) {
-      const statusNumber = Number(status);
-      const statusMap = {
-        0: "Pendente",
-        1: "Em Andamento",
-        2: "Concluído",
-      };
-      return statusMap[statusNumber] !== undefined
-        ? statusMap[statusNumber]
-        : "Pendente";
-    },
-    getStatusClass(status) {
-      const statusNumber = Number(status);
-      const statusClassMap = {
-        0: "pendente",
-        1: "em-andamento",
-        2: "concluido",
-      };
-      return statusClassMap[statusNumber] !== undefined
-        ? statusClassMap[statusNumber]
-        : "pendente";
     },
   },
 };
