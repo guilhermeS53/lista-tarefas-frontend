@@ -1,4 +1,4 @@
-# Sistema de Gerenciamento de Tarefas
+# Sistema de Gerenciamento de Tarefas - Frontend
 
 Frontend do Sistema de Gerenciamento de Tarefas desenvolvido a partir do framework Vue.js. 
 Ele permite que o usuário visualize, adicione, edite e exclua uma ou mais tarefas por meio de uma interface clean e conectada a uma API Backend.
